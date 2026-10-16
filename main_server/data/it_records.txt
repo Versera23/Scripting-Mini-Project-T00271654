@@ -1,0 +1,9 @@
+IT Staff problems:
+------------------------------------------------------------------------------------------------------------
+
+IT_ID, IT_name, Problem_Area, Priority, Assigned_IT_staff, Status, SLA_status
+------------------------------------------------------------------------------------------------------------
+
+IT007654, Jessica Cooley, Storage upgrade, Medium, Mark Brown, Open, 3. Within 4 hours
+IT002387, Mark Brown, Server Migration, High, Mike McCarthy, In progress, 1. Within the hour
+IT006954, Trevor O'Connor, End-Device updates, High, George Mitchell, In progress, 1. Within the hour 

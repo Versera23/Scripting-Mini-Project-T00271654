@@ -1,0 +1,9 @@
+Admin:
+------------------------------------------------------------------------------------------------------------
+
+Admin_ID, Admin_Name, Problem_Area, Priority, Assigned_IT_staff, Status, SLA_status
+------------------------------------------------------------------------------------------------------------
+
+A009761, Kate Mulcahy, Server issue, High, Mark Cronin, In progress, 1. Within the hour
+A006548, Martin Carey, Laptop issue, Medium, Luke Brown, Open, 2. Within 2 hours
+A008923, Dylan Keane, Server issue, High, Trevor O'Connor, In progress, 1. Within the hour
