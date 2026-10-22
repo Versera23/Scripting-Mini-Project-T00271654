@@ -1,12 +1,12 @@
 Students:
 ------------------------------------------------------------------------------------------------------------
 
-Student_ID, Student_Name, Course, Course_Year, Problem_Area, Priority, Assigned_IT_Staff, Status, SLA_Status
+Student_ID, Student_name, Course, Course_Year, Problem_Area, Priority, Status, SLA_Status, Assigned_IT_Staff
 ------------------------------------------------------------------------------------------------------------
 
-V002123, John Doe, Computing, 4th Year, Laptop issue, (Automatically) High, Jessica Cooley, Open, 2. Within 4 hours
-V002412, Jane Doe, Business, 1st Year, Email issue, Low priority, Mark Brown, In progress, 4. Within 2 days
-V006521, Marcus Freeman, 2nd Year, Canvas issue, Medium priority, Jessica Cooley, In progress, 3. Within 8 hours
-V098765, Gordon Freeman, 4th Year, Laptop issue, High priority, Mark Brown, Open, 1. Within the hour 
-V002813, Sam Roach, 1st Year, Canvas issue, Low priority, Trevor O'Connnor, Open, 4. Within 2 days
-V009748, Michael Samson, 3rd Year, Wi-Fi connection issue, Medium priority, Luke Brown, In progress, 2. Within 4 hours 
+V002123, John Doe, Computing, 4, Laptop issue, High, Open, 2. Within 8 hours, Jessica Cooley
+V002412, Jane Doe, Business, 1, Email issue, Low priority, In progress, 3. Within the day, Mark Brown 
+V006521, Marcus Freeman, 2, Canvas issue, Medium priority, In progress, 2. Within 8 hours, Jessica Cooley 
+V098765, Gordon Freeman, 4, Laptop issue, High priority, Open, 1. Within the hour, Mark Brown 
+V002813, Sam Roach, 1, Canvas issue, Low priority, Trevor O'Connnor, Open, 3. Within the day, Trevor O'Connnor 
+V009748, Michael Samson, 3, Wi-Fi connection issue, Medium priority, In progress, 2. Within 8 hours, Luke Brown

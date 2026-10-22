@@ -1,10 +1,10 @@
 Lecturers:
 ------------------------------------------------------------------------------------------------------------
 
-Lecturer_ID, Lecturer_Name, Course, Problem_Area, During_class, Priority, Assigned_IT_staff, Status, SLA_status
+Lecturer_ID, Lecturer_Name, Course, Problem_Area, During_class, Priority, Status, SLA_Status, Assigned_IT_Staff
 ------------------------------------------------------------------------------------------------------------
 
-S005431, Anne Kenny, Computing, Lab issue, Yes, High priority, Trevor O'Connor, In progress, 1. Within hour
-S006743, Paul Dunne, Business, Laptop issue, No, Medium priority, Jessica Cooley, Open, 2. Within 4 hours
-S006547, Nick Gurney, Mixed Media, Laptop issue, Yes, High, Michael Cooley, In progress, 1. Within hour
-S002345, Mike Paul, Science, Canvas issue, No, Low priority, Michael Cooley, Open, 3. Within 8 hours
+S005431, Anne Kenny, Computing, Lab issue, Yes, High priority, In progress, 1. Within hour, Trevor O'Connor
+S006743, Paul Dunne, Business, Laptop issue, No, Medium priority, Open, 2. Within 8 hours, Jessica Cooley
+S006547, Nick Gurney, Mixed Media, Laptop issue, Yes, High, In progress, 1. Within hour, Michael Cooley
+S002345, Mike Paul, Science, Canvas issue, No, Medium priority, Open, 2. Within 8 hours, Michael Cooley

@@ -22,8 +22,6 @@ Student: Student_ID, Student_Name, Course, Course_Year (if 4th year, automatical
 
 Admin: Admin_ID, Admin_Name, Problem_Area, Assigned_IT_staff, Status, SLA_status
 
-IT_Problem: IT_ID, IT_name, Problem_Area, Assigned_IT_staff, Status, SLA_status
-
 IT_Working: If IT_Name == Assigned_IT_staff for a ticket, allow for changes to be made to the tickets, aka changing status or priority of a ticket.
 
 ## Unique identifier
@@ -35,8 +33,8 @@ example_id will be the unique identifier. E.g. student_id.
 1. Student	   -->	ID:
 2. Lecturer	    	Name:
 3. Admin			Course:
-4. IT Help			Course Year:
-5. IT Worker		Problem: (Will be categorized into different priorities based on issue)
+4. IT Worker		Course Year:
+					Problem: (Will be categorized into different priorities based on issue)
 			    	(After submission, automated) "Thank you, your ticket has been logged, your priority is $(Priority), we will respond as soon as possible."
 
 ## Validation rules
