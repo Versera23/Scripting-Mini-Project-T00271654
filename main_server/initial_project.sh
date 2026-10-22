@@ -256,7 +256,11 @@ echo ""
      elif [[ ! ${it_id_number} == "IT00"* ]]; then
         echo "Please enter a valid technician ID."
         echo
-        return 1    
+        return 1  
+     elif grep -qi "^${it_id_number}," "$IT_FILE"; then 
+        echo "Error: ID already exists, try again." 
+        echo
+        return 1 
     fi 
 
 echo >> "$IT_FILE"
