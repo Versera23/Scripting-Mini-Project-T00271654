@@ -311,7 +311,8 @@ change_status(){
     allStatus=$(sed -i -e "${currentNum}s/Open,/In Progress,/" "$temp_file")
 
     if [ -f "$temp_stud_file" ]; then
-        currentStud="$(grep -n "$target_id" "$temp_stud_file" | cut -d : -f 1)"
+        currentStud="$(grep -n "$target_id" "$temp_stud_file" | cut -d : -f 1)" # code adapted from: carlodef, 2014. Get line number while using grep. [Online] Available at: https://stackoverflow.com/questions/3213748/get-line-number-while-using-grep [Accessed 5 11 2026].
+
         studStatus=$(sed -i -e "${currentStud}s/Open,/In Progress,/" "$temp_stud_file")
     elif [ -f "$temp_lect_file" ]; then
         currentLect="$(grep -n "$target_id" "$temp_lect_file" | cut -d : -f 1)"
@@ -526,7 +527,7 @@ it_menu(){
         echo "Tickets logged: $TICKET_COUNT" 
         echo   
 
-read -r -p "Enter your full name (Use 'Jessica Cooley' for testing): " name
+read -r -p "Enter your full name (Use 'Jessica' for testing): " name
 read -r -p "Enter ID number (Use 'IT007654' for testing): " id_worker
 read -r -p "Enter password (Use 'JessicaPassword' for testing): " password
 echo 
