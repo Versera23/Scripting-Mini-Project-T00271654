@@ -374,9 +374,20 @@ echo  "Add new technician information below"
 echo "-----------------------------------------------------"
 read -r -p "Enter new forename: " it_forename	
 read -r -p "Enter new surname: " it_surname	
-read -r -p "Enter new ID Number: " it_id_number
 read -r -p "Enter new default password: " it_password
 echo ""
+
+it_id_number=$(x=0
+base_ID="IT00"
+
+while [ $x -le 3 ];
+do
+  randNum=$(shuf -i 1-9 -n 1)
+  base_ID+=$randNum
+  (( x++ ))
+done
+
+echo $base_ID)
 
     #Check to see if all fields are filled in
     if [ -z "$it_id_number" ] || [ -z "$it_forename" ] || [ -z "$it_surname" ] || [ -z "$it_password" ]; then 
