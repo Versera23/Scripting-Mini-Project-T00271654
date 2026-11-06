@@ -99,10 +99,10 @@ echo
 #Status remains Open until an IT Worker accepts the ticket and changes it
 
 #Insert the information into records.txt in the area in which Lecturer tickets are stored.  
-sed -i "12 a $id_number, $forename $surname, $course, $course_year, $problem_area, $priority, \"Open\", $sla, $choose_Worker" "$DATA_FILE"
+sed -i "12 a $id_number, $forename $surname, $course, $course_year, $problem_area, $priority, Open, $sla, $choose_Worker" "$DATA_FILE"
 #Place new information also into dedicated students_records.txt file.
 echo >> "$STUDENT_FILE"
-echo -n "$id_number, $forename $surname, $course, $course_year, $problem_area, $priority, \"Open\", $sla, $choose_Worker" >> "$STUDENT_FILE"
+echo -n "$id_number, $forename $surname, $course, $course_year, $problem_area, $priority, Open, $sla, $choose_Worker" >> "$STUDENT_FILE"
 echo "Thank you $forename, your ticket has been logged, your priority is $priority, we will respond as soon as possible."
 }
 
@@ -145,9 +145,9 @@ echo ""
         return 1    
     fi  
 
-sed -i "23 a $id_number, $forename $surname, $course, $problem_area, $problem_time, $priority, \"Open\", $sla, $choose_Worker" "$DATA_FILE"
+sed -i "23 a $id_number, $forename $surname, $course, $problem_area, $problem_time, $priority, Open, $sla, $choose_Worker" "$DATA_FILE"
 echo >> "$LECTURER_FILE"
-echo -n "$id_number, $forename $surname, $course, $problem_area, $priority, \"Open\", $sla, $choose_Worker" >> "$LECTURER_FILE"
+echo -n "$id_number, $forename $surname, $course, $problem_area, $priority, Open, $sla, $choose_Worker" >> "$LECTURER_FILE"
 echo "Thank you $forename, your ticket has been logged, your priority is $priority, we will respond as soon as possible."
 }
 
@@ -178,9 +178,9 @@ echo ""
 
 #Status remains "Open" until an IT Worker accepts the ticket and changes it
 
-sed -i "33 a $id_number, $forename $surname, $problem_area, \"High\", \"Open\", \"1. Within hour\", $choose_Worker" "$DATA_FILE"
+sed -i "33 a $id_number, $forename $surname, $problem_area, High, Open, 1. Within hour, $choose_Worker" "$DATA_FILE"
 echo >> "$ADMIN_FILE"
-echo -n "$id_number, $forename $surname, \"High\", \"Open\", \"1. Within hour\", $choose_Worker" >> "$ADMIN_FILE"
+echo -n "$id_number, $forename $surname, High, Open, 1. Within hour, $choose_Worker" >> "$ADMIN_FILE"
 echo "Thank you $forename, your ticket has been logged, your priority is High priority, we will respond as soon as possible."
 }
 
@@ -193,8 +193,8 @@ echo "1. View all records"
 echo "2. Show your current tickets"
 echo "3. Search for a ticket by ID"
 echo "4. Change a ticket's status"
-echo "5. Add a new Technician to system"
-echo "6. Delete an existing record"
+echo "5. Delete an existing record"
+echo "6. Add a new Technician to system"
 echo "7. System Backup"
 echo "8. Log out"
 }
@@ -266,11 +266,16 @@ change_status(){
         return 1
     fi
 
+    searchedRecord=$(grep "$target_id" "$DATA_FILE")
+    
+    echo
+    echo "Record selected: $searchedRecord"
     echo
     read -r -p "Update this record: $target_id? (yes/no): " confirm
         case "$confirm" in
         yes|YES|Yes) ;;
-        *) echo -n "Update cancelled."; return 0 ;;
+        *) echo 
+        echo -n "Update cancelled."; return 0 ;;
     esac
     > "$temp_file"
 
@@ -527,7 +532,7 @@ it_menu(){
         echo "Tickets logged: $TICKET_COUNT" 
         echo   
 
-read -r -p "Enter your full name (Use 'Jessica' for testing): " name
+read -r -p "Enter your name (Use 'Jessica' for testing): " name
 read -r -p "Enter ID number (Use 'IT007654' for testing): " id_worker
 read -r -p "Enter password (Use 'JessicaPassword' for testing): " password
 echo 
@@ -560,8 +565,8 @@ case "$work_choice" in
             2) show_working_tickets ;;
             3) search_by_id ;;
             4) change_status ;;
-            5) add_technician ;;
-            6) delete_record ;;
+            5) delete_record ;;
+            6) add_technician ;;
             7) backup_files ;;
             8) echo "Successfully signed out: $name"; break ;;
             *) echo "Please select a valid option, 1-7." ;; 
