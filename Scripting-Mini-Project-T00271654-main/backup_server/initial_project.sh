@@ -8,6 +8,7 @@
 #Added safe deletion feature to all files
 #Created safe update status ability
 #Added further restrictions when logging in as a technician for security purposes
+#Added automated generation of IT numbers when adding a new technician
 #Added the ability to backup all files to backup server
 #Fixed various bugs within the code
 
@@ -401,8 +402,9 @@ echo $base_ID)
         return 1  
      elif grep -qi "^${it_id_number}," "$IT_FILE"; then 
         echo "Error: ID already exists, try again." 
+        it_id_number
         echo
-        return 1 
+        return 0 
     fi 
 
 echo >> "$IT_FILE"
