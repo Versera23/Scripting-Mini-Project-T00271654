@@ -1,0 +1,109 @@
+TICKETS REPORT
+Generated: Wed Nov 11 19:20:17 GMT 2026
+Source: main_server/data/records_all.txt
+Total records: 33
+
+Students:
+------------------------------------------------------------------------------------------------------------
+
+Student_ID, Student_name, Course, Course_Year, Problem_Area, Priority, Status, SLA_Status, Assigned_IT_Staff
+------------------------------------------------------------------------------------------------------------
+
+V002123, John Doe, Computing, 4, Laptop issue, High, Open, 2. Within 8 hours, Jessica Cooley
+V002412, Jane Doe, Business, 1, Email issue, Low priority, In progress, 3. Within the day, Mark Brown 
+V006521, Marcus Freeman, 2, Canvas issue, Medium priority, In progress, 2. Within 8 hours, Jessica Cooley 
+V098765, Gordon Freeman, 4, Laptop issue, High priority, Open, 1. Within the hour, Mark Brown 
+V002813, Sam Roach, 1, Canvas issue, Low priority, Trevor O'Connnor, Open, 3. Within the day, Trevor O'Connnor 
+V009748, Michael Samson, 3, Wi-Fi connection issue, Medium priority, In progress, 2. Within 8 hours, Luke Brown
+
+Lecturers:
+------------------------------------------------------------------------------------------------------------
+
+Lecturer_ID, Lecturer_Name, Course, Problem_Area, During_class, Priority, Status, SLA_Status, Assigned_IT_Staff
+------------------------------------------------------------------------------------------------------------
+
+S005431, Anne Kenny, Computing, Lab issue, Yes, High priority, In progress, 1. Within hour, Trevor O'Connor
+S006743, Paul Dunne, Business, Laptop issue, No, Medium priority, Open, 2. Within 8 hours, Jessica Cooley
+S006547, Nick Gurney, Mixed Media, Laptop issue, Yes, High, In progress, 1. Within hour, Michael Cooley
+S002345, Mike Paul, Science, Canvas issue, No, Medium priority, Open, 2. Within 8 hours, Michael Cooley
+
+Admin:
+------------------------------------------------------------------------------------------------------------
+
+Admin_ID, Admin_Name, Problem_Area, Priority, Status, SLA_Status, Assigned_IT_Staff
+------------------------------------------------------------------------------------------------------------
+
+A009761, Kate Mulcahy, Server issue, High, In progress, 1. Within the hour, Mark Cronin
+A006548, Martin Carey, Laptop issue, High, Open, 1. Within the hour, Luke Brown
+A008923, Dylan Keane, Server issue, High, In progress, 1. Within the hour, Trevor O'Connor
+
+
+------------------------------------------------------------------------------------------------------------
+
+All open tickets:
+
+------------------------------------------------------------------------------------------------------------
+
+
+Students:
+------------------------------------------------------------------------------------------------------------
+
+Student_ID, Student_name, Course, Course_Year, Problem_Area, Priority, Status, SLA_Status, Assigned_IT_Staff
+------------------------------------------------------------------------------------------------------------
+
+V002123, John Doe, Computing, 4, Laptop issue, High, Open, 2. Within 8 hours, Jessica Cooley
+V098765, Gordon Freeman, 4, Laptop issue, High priority, Open, 1. Within the hour, Mark Brown 
+V002813, Sam Roach, 1, Canvas issue, Low priority, Trevor O'Connnor, Open, 3. Within the day, Trevor O'Connnor 
+
+Lecturers:
+------------------------------------------------------------------------------------------------------------
+
+Lecturer_ID, Lecturer_Name, Course, Problem_Area, During_class, Priority, Status, SLA_Status, Assigned_IT_Staff
+------------------------------------------------------------------------------------------------------------
+
+S006743, Paul Dunne, Business, Laptop issue, No, Medium priority, Open, 2. Within 8 hours, Jessica Cooley
+S002345, Mike Paul, Science, Canvas issue, No, Medium priority, Open, 2. Within 8 hours, Michael Cooley
+
+Admin:
+------------------------------------------------------------------------------------------------------------
+
+Admin_ID, Admin_Name, Problem_Area, Priority, Status, SLA_Status, Assigned_IT_Staff
+------------------------------------------------------------------------------------------------------------
+
+A006548, Martin Carey, Laptop issue, High, Open, 1. Within the hour, Luke Brown
+
+
+------------------------------------------------------------------------------------------------------------
+
+All tickets in progress:
+
+------------------------------------------------------------------------------------------------------------
+
+
+Students:
+------------------------------------------------------------------------------------------------------------
+
+Student_ID, Student_name, Course, Course_Year, Problem_Area, Priority, Status, SLA_Status, Assigned_IT_Staff
+------------------------------------------------------------------------------------------------------------
+
+V002412, Jane Doe, Business, 1, Email issue, Low priority, In progress, 3. Within the day, Mark Brown 
+V006521, Marcus Freeman, 2, Canvas issue, Medium priority, In progress, 2. Within 8 hours, Jessica Cooley 
+V009748, Michael Samson, 3, Wi-Fi connection issue, Medium priority, In progress, 2. Within 8 hours, Luke Brown
+
+Lecturers:
+------------------------------------------------------------------------------------------------------------
+
+Lecturer_ID, Lecturer_Name, Course, Problem_Area, During_class, Priority, Status, SLA_Status, Assigned_IT_Staff
+------------------------------------------------------------------------------------------------------------
+
+S005431, Anne Kenny, Computing, Lab issue, Yes, High priority, In progress, 1. Within hour, Trevor O'Connor
+S006547, Nick Gurney, Mixed Media, Laptop issue, Yes, High, In progress, 1. Within hour, Michael Cooley
+
+Admin:
+------------------------------------------------------------------------------------------------------------
+
+Admin_ID, Admin_Name, Problem_Area, Priority, Status, SLA_Status, Assigned_IT_Staff
+------------------------------------------------------------------------------------------------------------
+
+A009761, Kate Mulcahy, Server issue, High, In progress, 1. Within the hour, Mark Cronin
+A008923, Dylan Keane, Server issue, High, In progress, 1. Within the hour, Trevor O'Connor
