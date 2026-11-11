@@ -4,13 +4,10 @@
 # Student number: T00271654 
 # Purpose: Establish a working ticket system for different roles in the Univsersity. Build an IT desk management system to manage those tickets. 
 
-#Update 3.0
-#Added safe deletion feature to all files
-#Created safe update status ability
-#Added further restrictions when logging in as a technician for security purposes
-#Added automated generation of IT numbers when adding a new technician
-#Added the ability to backup all files to backup server
-#Fixed various bugs within the code
+#Update 4.0
+#Added reporting menu to IT to create, view and inspect specific reports
+#Created backup system
+
 
 PROJECT_TITLE="main_server/help_desk.sh" 
 DATA_FILE="main_server/data/records_all.txt"
