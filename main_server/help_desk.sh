@@ -198,12 +198,14 @@ echo "8. System Backup"
 echo "9. Log out"
 }
 
-#Searches for the count of entered ID
+#DISPLAY ALL RECORDS
 
 display_all_records(){
         cat "$DATA_FILE"
         echo 
 }
+
+#SHOW ALL TICKETS FOR LOGGED IN IT TECH
 
 show_working_tickets(){
         find_ticket=$(grep -i "$name" "$DATA_FILE")
@@ -217,6 +219,8 @@ show_working_tickets(){
         fi
         echo
 }
+
+#SEARCH BY ID
 
 search_by_id(){
     #Used to declare Variables only within this function
@@ -367,6 +371,7 @@ change_status(){
     fi
 }
 
+#ADD A TECHNICIAN
 
 add_technician(){
 echo  "Add new technician information below"
@@ -409,6 +414,8 @@ echo >> "$IT_FILE"
 echo -n "$it_id_number, $it_forename $it_surname, $it_password" >> "$IT_FILE"
 echo "Thank you $name, new technician has been added to system"
 }
+
+#DELETE A RECORD
 
 delete_record(){
     local temp_file="${DATA_FILE}.tmp"
@@ -518,6 +525,8 @@ delete_record(){
     fi
 }
 
+#VISUAL REPORTS MENU
+
 reports_menu(){
         echo 
         echo "Enter your choice below:"
@@ -528,6 +537,8 @@ reports_menu(){
         echo "4. Exit back to IT menu"
         echo
 }
+
+#REPORT CREATION
 
 create_report(){
     report_file="main_server/reports/$creation_date.txt"
@@ -577,6 +588,8 @@ fi
     return 002
 }
 
+#DISPLAY ALL REPORTS + CATEGORIES
+
 view_all_reports(){
         total_reports=$(ls $REPORT_DIR | wc -l)
         echo "All records as of $(date)"
@@ -589,6 +602,8 @@ view_all_reports(){
         echo
         echo
 }
+
+#VIEWING SPECIFIC REPORTS
 
 view_report(){
     echo "Please enter the date you wish to see the record for: "
@@ -612,6 +627,8 @@ view_report(){
     fi    
 }
 
+#REPORT MENU FUNCTIONS
+
 reports(){
 reports_menu
 echo 
@@ -626,6 +643,7 @@ case "$report_choice" in
 esac
 }
 
+#CREATE FILE BACKUPS
 
 backup_files(){
 backup_date=$(date '+%Y-%m-%d_%H-%M-%S')
