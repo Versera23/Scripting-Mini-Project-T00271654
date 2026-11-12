@@ -1,5 +1,5 @@
 TICKETS REPORT
-Generated: Wed Nov 11 19:20:17 GMT 2026
+Generated: Thu Nov 12 17:00:48 GMT 2026
 Source: main_server/data/records_all.txt
 Total records: 33
 
@@ -40,7 +40,7 @@ A008923, Dylan Keane, Server issue, High, In progress, 1. Within the hour, Trevo
 
 ------------------------------------------------------------------------------------------------------------
 
-All open tickets:
+All open tickets; Current count: 6
 
 ------------------------------------------------------------------------------------------------------------
 
@@ -75,7 +75,7 @@ A006548, Martin Carey, Laptop issue, High, Open, 1. Within the hour, Luke Brown
 
 ------------------------------------------------------------------------------------------------------------
 
-All tickets in progress:
+All tickets in progress; Current count: 7
 
 ------------------------------------------------------------------------------------------------------------
 
