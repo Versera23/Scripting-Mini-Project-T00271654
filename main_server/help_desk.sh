@@ -4,9 +4,17 @@
 # Student number: T00271654 
 # Purpose: Establish a working ticket system for different roles in the Univsersity. Build an IT desk management system to manage those tickets. 
 
+#Update 4.1
+#General bug fixes
+#Added extra validation for reports & backup
+
 #Update 4.0
 #Added reporting menu to IT to create, view and inspect specific reports
-#Created backup system
+#Create: Will create report for the day, marked by the date in the file name. Can only be done once per day, for end of day reports.
+#View: will show a list of all current dated reports.
+#Inspect: Find a specific file and display it, enter the date of a corresponding file to see if it exists or not.
+#Improved backup system
+#Now creates compressed backup marked with the date and time.
 
 
 PROJECT_TITLE="main_server/help_desk.sh" 
@@ -541,8 +549,11 @@ reports_menu(){
 #REPORT CREATION
 
 create_report(){
-    report_file="main_server/reports/$creation_date.txt"
     creation_date=$(date +%Y-%m-%d)
+    report_file="main_server/reports/$creation_date.txt"
+    openTicket=$(grep -c "Open" $DATA_FILE) #Count open tickets within the data file
+    in_Progress=$(grep -c "In progress" $DATA_FILE) #Count in progress tickets within the data file
+
 
     if [ -f "$report_file" ]; then
         echo "Error: report already exists for: $creation_date"
@@ -559,7 +570,7 @@ create_report(){
         echo
         echo "------------------------------------------------------------------------------------------------------------"
         echo
-        echo "All open tickets:"
+        echo "All open tickets; Current count: $openTicket"
         echo
         echo "------------------------------------------------------------------------------------------------------------"
         echo
@@ -569,7 +580,7 @@ create_report(){
         echo
         echo "------------------------------------------------------------------------------------------------------------"
         echo
-        echo "All tickets in progress:"
+        echo "All tickets in progress; Current count: $in_Progress"
         echo
         echo "------------------------------------------------------------------------------------------------------------"   
         echo
@@ -608,9 +619,9 @@ view_all_reports(){
 view_report(){
     echo "Please enter the date you wish to see the record for: "
     echo
-    read -r -p "Enter the day: " day
-    read -r -p "Enter the month: " month
-    read -r -p "Enter the year: " year
+    read -r -p "Enter the day (dd/mm/yyyy): " day
+    read -r -p "Enter the month (dd/mm/yyyy): " month
+    read -r -p "Enter the year (dd/mm/yyyy): " year
     echo
 
     searched_file="main_server/reports/${year}-${month}-${day}.txt"
@@ -655,7 +666,8 @@ read -r -p "Do you want to back up files to backup server? (yes/no): " confBacku
                         BACKUP_FILE="$BACKUP_DIR/backup_$backup_date.tar.gz"
                         tar -czf "$BACKUP_FILE" "$DATA_FILE" "$STUDENT_FILE" "$LECTURER_FILE" "$ADMIN_FILE" "$IT_FILE" "$PROJECT_TITLE"
                     else
-                        echo "Backup cancelled successfully"
+                        echo
+                        echo "Backup cancelled"
                         return
                     fi  
 
