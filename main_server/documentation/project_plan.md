@@ -22,17 +22,17 @@ University needs a ticket management system to enable IT staff to better handle 
 
 ## Record structure
 
-Lecturer: Lecturer\_ID, Lecturer\_Name, Course, Problem\_Area (Email, Canvas, etc. = Medium Priority. Accessing computers or labs = High priority), Priority (high if during working hours, allow for option to select that, tickets may be low-medium priority instead), Assigned\_IT\_staff, Status, SLA\_status (hours promised to fix by)
+Lecturer: Lecturer_ID, Lecturer_Name, Course, Problem_Area (Email, Canvas, etc. = Medium Priority. Accessing computers or labs = High priority), Priority (high if during working hours, allow for option to select that, tickets may be low-medium priority instead), Assigned_IT_staff, Status, SLA_status (hours promised to fix by)
 
-Student: Student\_ID, Student\_Name, Course, Course\_Year (if 4th year, automatically high priority), Problem\_Area, Priority, Assigned\_IT\_staff, Status, SLA\_status
+Student: Student_ID, Student_Name, Course, Course_Year (if 4th year, automatically high priority), Problem_Area, Priority, Assigned_IT_staff, Status, SLA_status
 
-Admin: Admin\_ID, Admin\_Name, Problem\_Area, Assigned\_IT\_staff, Status, SLA\_status
+Admin: Admin_ID, Admin_Name, Problem_Area, Assigned_IT\_staff, Status, SLA_status
 
-IT\_Working: If IT\_Name == Assigned\_IT\_staff for a ticket, allow for changes to be made to the tickets, aka changing status or priority of a ticket.
+IT_Working: If IT_Name == Assigned_IT_staff for a ticket, allow for changes to be made to the tickets, aka changing status or priority of a ticket.
 
 ## Unique identifier
 
-example\_id will be the unique identifier. E.g. student\_id.
+example_id will be the unique identifier. E.g. student_id.
 
 ## Planned menu
 
@@ -54,6 +54,6 @@ If ID does not match records under a category, e.g. student ID used in lecturer 
 
 ## Planned reports
 
-Errors - will store problems within the IT system, such as a failed ticket or downed server.
-Warnings - will alert when a report's SLA timer is going to expire.
+Reports - Daily reports on all open + in progress tickets.
+Logs - Reports on successful backups and updates
 

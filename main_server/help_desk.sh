@@ -4,20 +4,15 @@
 # Student number: T00271654 
 # Purpose: Establish a working ticket system for different roles in the Univsersity. Build an IT desk management system to manage those tickets. 
 
-#Update 4.1
-#General bug fixes
-#Added extra validation for reports & backup
-
-#Update 4.0
-#Added reporting menu to IT to create, view and inspect specific reports
-#Create: Will create report for the day, marked by the date in the file name. Can only be done once per day, for end of day reports.
-#View: will show a list of all current dated reports.
-#Inspect: Find a specific file and display it, enter the date of a corresponding file to see if it exists or not.
-#Improved backup system
-#Now creates compressed backup marked with the date and time.
+#Update 5.0 - Relase
+#Add automation using cron jobs to reports and backups, set for midnight every night.
+#Minor improvements to validating record deletion 
+#Final bug fixes 
 
 
 PROJECT_TITLE="main_server/help_desk.sh" 
+AUTO_REPORT="main_server/reportCreator.sh"
+AUTO_BACKUP="main_server/backupCreator.sh"
 DATA_FILE="main_server/data/records_all.txt"
 STUDENT_FILE="main_server/data/student_records.txt"
 LECTURER_FILE="main_server/data/lecturer_records.txt"
@@ -67,9 +62,9 @@ echo  "Welcome Student, please enter your information below"
 echo "-----------------------------------------------------"
 read -r -p "Enter your forename: " forename	
 read -r -p "Enter your surname: " surname	
-read -r -p "Enter your ID Number: " id_number
+read -r -p "Enter your ID Number (V00****): " id_number
 read -r -p "Enter your course name: " course	
-read -r -p "Enter your course year: " course_year	
+read -r -p "Enter your course year (1-4): " course_year	
 read -r -p "Enter your problem (short-form, e.g. 'Laptop Issues'): " problem_area
 echo
 
@@ -85,8 +80,8 @@ echo
         sla="3. Within the day"  
     else
         echo "Please enter a valid course number; 1-4."
-        return 1
         echo
+        return 1
     fi
 
     #Check to see if all fields are filled in
@@ -121,7 +116,7 @@ echo  "Welcome Lecturer, please enter your information below"
 echo "-----------------------------------------------------"
 read -r -p "Enter your forename: " forename	
 read -r -p "Enter your surname: " surname	
-read -r -p "Enter your ID Number: " id_number
+read -r -p "Enter your ID Number (S00****): " id_number
 read -r -p "Enter your course name: " course	
 read -r -p "Enter your problem (short-form, e.g. 'Laptop Issues'): " problem_area
 read -r -p "Is this problem during class time? Enter Yes/No (case-sensitive): " problem_time
@@ -142,8 +137,9 @@ echo ""
     #Check to see if all fields are filled in
     if [ -z "$id_number" ] || [ -z "$forename" ] || [ -z "$surname" ] || [ -z "$course" ] || [ -z "$problem_area" ] || [ -z "$problem_time" ]; then 
         echo "Error: all fields are required." 
-        return 1
         echo
+        return 1
+
     #Check to see if ID Number matches     
     elif [[ ! ${id_number} == "S00"* ]]; then
         echo "Please enter a valid Lecturer ID."
@@ -166,7 +162,7 @@ echo  "Welcome Admin Staff, please enter your information below"
 echo "-----------------------------------------------------"
 read -r -p "Enter your forename: " forename	
 read -r -p "Enter your surname: " surname	
-read -r -p "Enter your ID Number: " id_number
+read -r -p "Enter your ID Number (A00****): " id_number
 read -r -p "Enter your problem (short-form, e.g. 'Laptop Issues'): " problem_area
 echo ""
 
@@ -260,7 +256,7 @@ search_by_id(){
 
 #Changes status to In Progress when approved by a technician
 change_status(){
-    local target_id new_status line current_id
+    local target_id line current_id
     local temp_file="${DATA_FILE}.tmp"
     local temp_stud_file="${STUDENT_FILE}.tmp"
     local temp_lect_file="${LECTURER_FILE}.tmp"
@@ -273,110 +269,117 @@ change_status(){
 
     read -r -p "Enter ticket to update status of: " target_id
     if [ -z "$target_id" ]; then
+        echo
         echo "Error: ID cannot be blank."
         return 1
-    fi
 
-    searchedRecord=$(grep "$target_id" "$DATA_FILE")
-    
-    echo
-    echo "Record selected: $searchedRecord"
-    echo
-    read -r -p "Update this record: $target_id? (yes/no): " confirm
-        case "$confirm" in
-        yes|YES|Yes) ;;
-        *) echo 
-        echo -n "Update cancelled."; return 0 ;;
-    esac
-    > "$temp_file"
-
-    if [[ "$target_id" == "V00"* ]]; then
-        touch "$temp_stud_file"
-        echo "Student_ID, Student_name, Course, Course_Year, Problem_Area, Priority, Status, SLA_Status, Assigned_IT_Staff" >> "$temp_stud_file"
-        echo "------------------------------------------------------------------------------------------------------------" >> "$temp_stud_file"
-        echo >> "$temp_stud_file"
-    elif [[ "$target_id" == "S00"* ]]; then
-         touch "$temp_lect_file"
-         echo "Lecturer_ID, Lecturer_Name, Course, Problem_Area, During_class, Priority, Status, SLA_Status, Assigned_IT_Staff" >> "$temp_lect_file"
-         echo "------------------------------------------------------------------------------------------------------------" >> "$temp_lect_file"
-         echo >> "$temp_lect_file"
-    elif [[ "$target_id" == "A00"* ]]; then
-         touch "$temp_admin_file"
-         echo "Admin_ID, Admin_Name, Problem_Area, Priority, Status, SLA_Status, Assigned_IT_Staff" >> "$temp_admin_file"
-         echo "------------------------------------------------------------------------------------------------------------" >> "$temp_admin_file"
-         echo >> "$temp_admin_file"
-    fi
-
-     while IFS= read -r line; do
-        current_id=${line%%,*}
-        echo "$line" >> "$temp_file"
-    done < "$DATA_FILE"
-
-    while IFS= read -r othersLine; do
-        current_id=${othersLine%%,*}
-        if [[ "$target_id" == "V00"* ]] && [[ "$current_id" == "V00"* ]]; then
-            echo "$othersLine" >> "$temp_stud_file"
-        elif [[ "$target_id" == "S00"* ]] && [[ "$current_id" == "S00"* ]]; then
-            echo "$othersLine" >> "$temp_lect_file"
-        elif [[ "$target_id" == "A00"* ]] && [[ "$current_id" == "A00"* ]]; then
-            echo "$othersLine" >> "$temp_admin_file"   
-        fi
-    done < "$DATA_FILE"
-
-    currentNum="$(grep -n "$target_id" "$temp_file" | cut -d : -f 1)"
-    allStatus=$(sed -i -e "${currentNum}s/Open,/In Progress,/" "$temp_file")
-
-    if [ -f "$temp_stud_file" ]; then
-        currentStud="$(grep -n "$target_id" "$temp_stud_file" | cut -d : -f 1)" # code adapted from: carlodef, 2014. Get line number while using grep. [Online] Available at: https://stackoverflow.com/questions/3213748/get-line-number-while-using-grep [Accessed 5 11 2026].
-
-        studStatus=$(sed -i -e "${currentStud}s/Open,/In Progress,/" "$temp_stud_file")
-    elif [ -f "$temp_lect_file" ]; then
-        currentLect="$(grep -n "$target_id" "$temp_lect_file" | cut -d : -f 1)"
-        lectStatus=$(sed -i -e "${currentLect}s/Open,/In Progress,/" "$temp_lect_file")
-    elif [ -f "$temp_admin_file" ]; then
-        currentAdmin="$(grep -n "$target_id" "$temp_admin_file" | cut -d : -f 1)"
-        adminStatus=$(sed -i -e "${currentAdmin}s/Open,/In Progress,/" "$temp_admin_file")
-    fi
-
-    if [ -z "$currentNum" ]; then
-        echo "Error: record not found."
-        return 1
-    fi
-
-    echo
-    read -r -p "Change $target_id's ticket status to open? (yes/no): " confUpdate
-    theLower=$(echo "$confUpdate" | tr [:upper:] [:lower:]) #tr learned from GeeksforGeeks.com, found at: https://www.geeksforgeeks.org/linux-unix/tr-command-in-unix-linux-with-examples/
-    if [[ $theLower = "yes" ]]; then
-        if [ -f "$temp_file" ]; then
-
-                    if [ -f "$temp_stud_file" ]; then
-                        cat $temp_stud_file > "$STUDENT_FILE"
-                        rm "$temp_stud_file"
-                    elif [ -f "$temp_lect_file" ]; then
-                        cat $temp_lect_file > "$LECTURER_FILE"
-                        rm "$temp_lect_file"
-                    elif [ -f "$temp_admin_file" ]; then
-                        cat $temp_admin_file > "$ADMIN_FILE"
-                        rm "$temp_admin_file"
-                    fi            
-
-            mv "$temp_file" "$DATA_FILE"
-            echo
-            echo "Record updated successfully."
-        fi
-    else
+    elif [ "$(grep "$target_id" $DATA_FILE)" = "" ]; then
         echo
-        echo "Error: update failed; original preserved."
-        rm "$temp_file"
+        echo "Error: record not found"
+        return 004
+    
+    else    
+        searchedRecord=$(grep "$target_id" "$DATA_FILE")
         
-                    if [ -f "$temp_stud_file" ]; then
-                        rm "$temp_stud_file"
-                    elif [ -f "$temp_lect_file" ]; then
-                        rm "$temp_lect_file"
-                    elif [ -f "$temp_admin_file" ]; then
-                        rm "$temp_admin_file"
-                    fi            
-    fi
+        echo
+        echo "Record selected: $searchedRecord"
+        echo
+        read -r -p "Update this record: $target_id? (yes/no): " confirm
+            case "$confirm" in
+            yes|YES|Yes) ;;
+            *) echo 
+            echo -n "Update cancelled."; return 0 ;;
+        esac
+        touch "$temp_file"
+
+        if [[ "$target_id" == "V00"* ]]; then
+            touch "$temp_stud_file"
+            echo "Student_ID, Student_name, Course, Course_Year, Problem_Area, Priority, Status, SLA_Status, Assigned_IT_Staff" >> "$temp_stud_file"
+            echo "------------------------------------------------------------------------------------------------------------" >> "$temp_stud_file"
+            echo >> "$temp_stud_file"
+        elif [[ "$target_id" == "S00"* ]]; then
+            touch "$temp_lect_file"
+            echo "Lecturer_ID, Lecturer_Name, Course, Problem_Area, During_class, Priority, Status, SLA_Status, Assigned_IT_Staff" >> "$temp_lect_file"
+            echo "------------------------------------------------------------------------------------------------------------" >> "$temp_lect_file"
+            echo >> "$temp_lect_file"
+        elif [[ "$target_id" == "A00"* ]]; then
+            touch "$temp_admin_file"
+            echo "Admin_ID, Admin_Name, Problem_Area, Priority, Status, SLA_Status, Assigned_IT_Staff" >> "$temp_admin_file"
+            echo "------------------------------------------------------------------------------------------------------------" >> "$temp_admin_file"
+            echo >> "$temp_admin_file"
+        fi
+
+        while IFS= read -r line; do
+            current_id=${line%%,*}
+            echo "$line" >> "$temp_file"
+        done < "$DATA_FILE"
+
+        while IFS= read -r othersLine; do
+            current_id=${othersLine%%,*}
+            if [[ "$target_id" == "V00"* ]] && [[ "$current_id" == "V00"* ]]; then
+                echo "$othersLine" >> "$temp_stud_file"
+            elif [[ "$target_id" == "S00"* ]] && [[ "$current_id" == "S00"* ]]; then
+                echo "$othersLine" >> "$temp_lect_file"
+            elif [[ "$target_id" == "A00"* ]] && [[ "$current_id" == "A00"* ]]; then
+                echo "$othersLine" >> "$temp_admin_file"   
+            fi
+        done < "$DATA_FILE"
+
+        currentNum="$(grep -n "$target_id" "$temp_file" | cut -d : -f 1)"
+        allStatus=$(sed -i -e "${currentNum}s/Open,/In Progress,/" "$temp_file")
+
+        if [ -f "$temp_stud_file" ]; then
+            currentStud="$(grep -n "$target_id" "$temp_stud_file" | cut -d : -f 1)" # code adapted from: carlodef, 2014. Get line number while using grep. [Online] Available at: https://stackoverflow.com/questions/3213748/get-line-number-while-using-grep [Accessed 5 11 2026].
+
+            studStatus=$(sed -i -e "${currentStud}s/Open,/In Progress,/" "$temp_stud_file")
+        elif [ -f "$temp_lect_file" ]; then
+            currentLect="$(grep -n "$target_id" "$temp_lect_file" | cut -d : -f 1)"
+            lectStatus=$(sed -i -e "${currentLect}s/Open,/In Progress,/" "$temp_lect_file")
+        elif [ -f "$temp_admin_file" ]; then
+            currentAdmin="$(grep -n "$target_id" "$temp_admin_file" | cut -d : -f 1)"
+            adminStatus=$(sed -i -e "${currentAdmin}s/Open,/In Progress,/" "$temp_admin_file")
+        fi
+
+        if [ -z "$currentNum" ]; then
+            echo "Error: record not found."
+            return 1
+        fi
+
+        echo
+        read -r -p "Change $target_id's ticket status to in progress? (yes/no): " confUpdate
+        theLower=$(echo "$confUpdate" | tr [:upper:] [:lower:]) #tr learned from GeeksforGeeks.com, found at: https://www.geeksforgeeks.org/linux-unix/tr-command-in-unix-linux-with-examples/
+        if [[ $theLower = "yes" ]]; then
+            if [ -f "$temp_file" ]; then
+
+                        if [ -f "$temp_stud_file" ]; then
+                            cat $temp_stud_file > "$STUDENT_FILE"
+                            rm "$temp_stud_file"
+                        elif [ -f "$temp_lect_file" ]; then
+                            cat $temp_lect_file > "$LECTURER_FILE"
+                            rm "$temp_lect_file"
+                        elif [ -f "$temp_admin_file" ]; then
+                            cat $temp_admin_file > "$ADMIN_FILE"
+                            rm "$temp_admin_file"
+                        fi            
+
+                mv "$temp_file" "$DATA_FILE"
+                echo
+                echo "Record updated successfully."
+            fi
+        else
+            echo
+            echo "Error: update failed; original preserved."
+            rm "$temp_file"
+            
+                        if [ -f "$temp_stud_file" ]; then
+                            rm "$temp_stud_file"
+                        elif [ -f "$temp_lect_file" ]; then
+                            rm "$temp_lect_file"
+                        elif [ -f "$temp_admin_file" ]; then
+                            rm "$temp_admin_file"
+                        fi            
+        fi
+    fi    
 }
 
 #ADD A TECHNICIAN
@@ -399,7 +402,7 @@ do
   (( x++ ))
 done
 
-echo $base_ID)
+echo "$base_ID")
 
     #Check to see if all fields are filled in
     if [ -z "$it_forename" ] || [ -z "$it_surname" ] || [ -z "$it_password" ]; then 
@@ -459,7 +462,7 @@ delete_record(){
         yes|YES|Yes) ;;
         *) echo -n "Deletion cancelled."; return 0 ;;
     esac
-    > "$temp_file"
+    touch "$temp_file"
         while IFS= read -r line; do
         current_id=${line%%,*}
         if [ "$current_id" != "$target_id" ]; then
@@ -550,7 +553,7 @@ reports_menu(){
 
 create_report(){
     creation_date=$(date +%Y-%m-%d)
-    report_file="main_server/reports/$creation_date.txt"
+    report_file="main_server/reports/${creation_date}_manual.txt"
     openTicket=$(grep -c "Open" $DATA_FILE) #Count open tickets within the data file
     in_Progress=$(grep -c "In progress" $DATA_FILE) #Count in progress tickets within the data file
 
@@ -587,22 +590,24 @@ create_report(){
         echo
         grep -v ", Open," $DATA_FILE
 
-} > $report_file
-fi
-
-    if [ -s "$report_file" ]; then
+} > "$report_file"
+        
+        if [ -s "$report_file" ]; then
         echo "Report created: $creation_date"
         return 004
-    fi
-    
-    echo "Error: report was not created successfully."
-    return 002
+        
+        else
+        echo "Error: report was not created successfully."
+        return 002
+        fi
+   return 001
+   fi 
 }
 
 #DISPLAY ALL REPORTS + CATEGORIES
 
 view_all_reports(){
-        total_reports=$(ls $REPORT_DIR | wc -l)
+        total_reports=$(find $REPORT_DIR | wc -l)
         echo "All records as of $(date)"
         echo
         echo "Total count is: $total_reports reports."
@@ -612,6 +617,7 @@ view_all_reports(){
         ls -1 $REPORT_DIR
         echo
         echo
+        return 001
 }
 
 #VIEWING SPECIFIC REPORTS
@@ -626,10 +632,10 @@ view_report(){
 
     searched_file="main_server/reports/${year}-${month}-${day}.txt"
 
-    if [ -f $searched_file ]; then
+    if [ -f "$searched_file" ]; then
         echo "Record ${year}-${month}-${day} found"
         echo
-        cat $searched_file
+        cat "$searched_file"
         echo
         return 001
     else    
@@ -649,7 +655,7 @@ case "$report_choice" in
             1) create_report ;;
             2) view_all_reports ;;
             3) view_report ;;
-            4) echo "exiting to IT Menu"; break ;;
+            4) echo "exiting to IT Menu"; return ;;
             *) echo "Please select a valid option, 1-4." ;; 
 esac
 }
@@ -663,15 +669,15 @@ backup_date=$(date '+%Y-%m-%d_%H-%M-%S')
 read -r -p "Do you want to back up files to backup server? (yes/no): " confBackup
                 theLower=$(echo "$confBackup" | tr [:upper:] [:lower:])
                     if [[ $theLower = "yes" ]]; then        
-                        BACKUP_FILE="$BACKUP_DIR/backup_$backup_date.tar.gz"
-                        tar -czf "$BACKUP_FILE" "$DATA_FILE" "$STUDENT_FILE" "$LECTURER_FILE" "$ADMIN_FILE" "$IT_FILE" "$PROJECT_TITLE"
+                        BACKUP_FILE="$BACKUP_DIR/backup_${backup_date}_manual.tar.gz"
+                        tar -czf "$BACKUP_FILE" "$DATA_FILE" "$STUDENT_FILE" "$LECTURER_FILE" "$ADMIN_FILE" "$IT_FILE" "$PROJECT_TITLE" "$AUTO_REPORT" "$AUTO_BACKUP" "$REPORT_DIR"
                     else
                         echo
                         echo "Backup cancelled"
                         return
                     fi  
 
-                    if [ -f $BACKUP_FILE ]; then  
+                    if [ -f "$BACKUP_FILE" ]; then  
                         echo
                         echo "Backup $backup_date successfully created"
                         echo
@@ -767,6 +773,6 @@ case "$user_choice" in
             3) admin_menu ;;
             4) it_menu ;;
             5) echo "Goodbye, have a good day!"; break ;; 
-            *) echo "Invalid, please select an option 1-5" ;; 
+            *) echo "Invalid, please select an option 1-5"; return ;; 
 esac
 done
