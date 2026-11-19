@@ -4,7 +4,7 @@ Students:
 Student_ID, Student_name, Course, Course_Year, Problem_Area, Priority, Status, SLA_Status, Assigned_IT_Staff
 ------------------------------------------------------------------------------------------------------------
 
-V002123, John Doe, Computing, 4, Laptop issue, High, Open, 2. Within 8 hours, Jessica Cooley
+V002123, John Doe, Computing, 4, Laptop issue, High, In Progress, 2. Within 8 hours, Jessica Cooley
 V002412, Jane Doe, Business, 1, Email issue, Low priority, In progress, 3. Within the day, Mark Brown 
 V006521, Marcus Freeman, 2, Canvas issue, Medium priority, In progress, 2. Within 8 hours, Jessica Cooley 
 V098765, Gordon Freeman, 4, Laptop issue, High priority, Open, 1. Within the hour, Mark Brown 
@@ -20,7 +20,7 @@ Lecturer_ID, Lecturer_Name, Course, Problem_Area, During_class, Priority, Status
 S005431, Anne Kenny, Computing, Lab issue, Yes, High priority, In progress, 1. Within hour, Trevor O'Connor
 S006743, Paul Dunne, Business, Laptop issue, No, Medium priority, Open, 2. Within 8 hours, Jessica Cooley
 S006547, Nick Gurney, Mixed Media, Laptop issue, Yes, High, In progress, 1. Within hour, Michael Cooley
-S002345, Mike Paul, Science, Canvas issue, No, Medium priority, Open, 2. Within 8 hours, Michael Cooley
+S002345, Mike Paul, Science, Canvas issue, No, Medium priority, In Progress, 2. Within 8 hours, Michael Cooley
 
 Admin:
 ------------------------------------------------------------------------------------------------------------
