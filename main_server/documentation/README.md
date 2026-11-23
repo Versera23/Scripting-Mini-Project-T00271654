@@ -6,7 +6,7 @@ University IT Support Desk
 Adam Fleming - T00271654
 ## How to run
 
-## MUST RUN FROM THE MAIN DIRECTORY, NOT FROM MAIN SERVER OR BACKUP SERVER DUE TO PATHING
+## MUST RUN FROM THE MAIN DIRECTORY, NOT FROM MAIN SERVER OR BACKUP SERVER DUE TO PATHING, PLEASE FOLLOW EXACT OUTLINES BELOW
 
 ## Use ./main_server/help_desk.sh
 
@@ -14,7 +14,23 @@ Adam Fleming - T00271654
 
 ## Due to cron having extremely limited pathing, nothing but absolute paths to the file guarantee it's full function on varying systems. Using pwd with /main_server/help_desk.sh will break the cron jobs. 
 
-## Please replace the paths with your pwd to the launch directory, and include /main_server/help_desk.sh in both backupCreator.sh & reportCreator.sh for the cron jobs to work as intended. 
+## To insert the cron job code onto your device, type crontab -e and paste in the following: 
+
+----------------------------------------------------------------------------------------------
+
+SHELL=/bin/sh
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+
+#CRON REQUIRED A MAIL SERVER TO WORK, TO SOLVE THE ERROR, SPECIFYING THAT IT DOES NOT MAIL ANYWHERE FIXED THE BUG
+MAILTO=""
+0 0 * * * (YOUR_PWD)/reportCreator.sh
+0 0 * * * (YOUR_PWD)/main_server/backupCreator.sh
+
+-----------------------------------------------------------------------------------------------
+
+## Even with specifying the shell in the script files, it still required it to run, as cron is extremely literal. The path variable defines the basic binary path for cron (standard issue).
+
+## Please replace the paths with your pwd to the launch directory up to  /main_server/.... in both backupCreator.sh & reportCreator.sh for the cron jobs to work as intended. 
 
 ## You will only need to do this once, which works very well in a pre-defined network, with only slight changes to the files to make the cron jobs work as intended again.
 
